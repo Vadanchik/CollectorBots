@@ -9,7 +9,6 @@ public class House : MonoBehaviour
     [SerializeField] private Transform _botSpawnPoint;
     [SerializeField] private BotSpawner _botSpawner;
 
-    private List<Bot> _bots = new List<Bot>();
     private Queue<Wood> _detectedWoods = new Queue<Wood>();
     private Queue<Bot> _freeBots = new Queue<Bot>();
 
@@ -43,7 +42,6 @@ public class House : MonoBehaviour
     {
         Bot bot = _botSpawner.Spawn(Utils.RandomDeviation(_botSpawnPoint.position + Utils.OffsetY * Vector3.up, 3));
         bot.Init(this);
-        _bots.Add(bot);
         _freeBots.Enqueue(bot);
         bot.Delivered += TakeWood;
     }

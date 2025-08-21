@@ -427,10 +427,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d011f2361389ac24a9881b8aad6603db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panSpeed: 20
-  panBorderThickness: 10
-  panLimitMin: {x: -50, y: -50}
-  panLimitMax: {x: 50, y: 50}
+  _panSpeed: 20
+  _panBorderThickness: 20
+  _panLimitMin: {x: -100, y: -100}
+  _panLimitMax: {x: 100, y: 100}
 --- !u!1 &1513414631
 GameObject:
   m_ObjectHideFlags: 0
@@ -492,8 +492,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _prefab: {fileID: 1757547480403899350, guid: 9d80508f27798a84eb8613b4f034607c, type: 3}
-  _poolCapacity: 5
   _poolMaxSize: 5
+  _poolCapacity: 5
   _timeOverSpawn: 2
 --- !u!4 &2086053885
 Transform:

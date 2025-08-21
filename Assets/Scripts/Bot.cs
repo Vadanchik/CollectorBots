@@ -19,35 +19,30 @@ public class Bot : MonoBehaviour
 
     public void StartGathering(Wood wood)
     {
-        StartCoroutine(GoToWood(wood));
+        StartCoroutine(Run(wood));
     }
 
-    private IEnumerator GoToWood(Wood wood)
+    private IEnumerator Run(Wood wood)
     {
-        WaitForEndOfFrame tick = new WaitForEndOfFrame();
+        yield return GoToTarget(wood.transform.position);
 
-        while ((wood.transform.position - transform.position).magnitude > _gatherDistance)
-        {
-            transform.position = Vector3.MoveTowards(transform.position, wood.transform.position, _speed * Time.deltaTime);
+        yield return GatherWood(wood);
 
-            yield return tick;
-        }
-
-        StartCoroutine(GatherWood(wood));
-    }
-
-    private IEnumerator GoToHouse()
-    {
-        WaitForEndOfFrame tick = new WaitForEndOfFrame();
-
-        while ((_house.transform.position - transform.position).magnitude > _gatherDistance)
-        {
-            transform.position = Vector3.MoveTowards(transform.position, _house.transform.position, _speed * Time.deltaTime);
-
-            yield return tick;
-        }
+        yield return GoToTarget(_house.transform.position);
 
         Delivered?.Invoke(this);
+    }
+
+    private IEnumerator GoToTarget(Vector3 position)
+    {
+        WaitForEndOfFrame tick = new WaitForEndOfFrame();
+
+        while ((position - transform.position).magnitude > _gatherDistance)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, position, _speed * Time.deltaTime);
+
+            yield return tick;
+        }
     }
     
     private IEnumerator GatherWood(Wood wood)
@@ -57,6 +52,5 @@ public class Bot : MonoBehaviour
         yield return time;
 
         wood.Collect();
-        StartCoroutine(GoToHouse());
     }
 }
