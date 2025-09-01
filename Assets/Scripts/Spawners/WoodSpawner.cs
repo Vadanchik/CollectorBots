@@ -19,6 +19,7 @@ public class WoodSpawner : PoolSpawner<Wood>
     {
         wood.Init(_currentWoodPosition);
         wood.gameObject.SetActive(true);
+        wood.IconViewer.HideIcon();
 
         Spawned?.Invoke(wood);
     }

@@ -1,24 +1,16 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class WoodStorage : MonoBehaviour
 {
     [SerializeField] private WoodSpawner _woodSpawner;
+    [SerializeField] private LayerMask _woodLayer;
 
-    private List<Wood> _spawnedWood = new List<Wood>();
+    private List<Wood> _woods = new List<Wood>();
     private Queue<Wood> _detectedWood = new Queue<Wood>();
 
     public int DetectedWoodCount => _detectedWood.Count;
-
-    private void OnEnable()
-    {
-        _woodSpawner.Spawned += AddWood;
-    }
-
-    private void OnDisable()
-    {
-        _woodSpawner.Spawned -= AddWood;
-    }
 
     public Wood GetDetectedWood()
     {
@@ -27,19 +19,34 @@ public class WoodStorage : MonoBehaviour
 
     public void AddScanedWood()
     {
-        foreach (Wood wood in _spawnedWood)
+        foreach (Wood wood in _woods)
         {
-            _detectedWood.Enqueue(wood);
-            wood.IconViewer.ShowIcon();
+            if (_detectedWood.Contains(wood) == false)
+            {
+                _detectedWood.Enqueue(wood);
+                wood.IconViewer.ShowIcon();
+            }
         }
 
-        _spawnedWood.Clear();
+        _woods.Clear();
     }
 
-    private void AddWood(Wood wood)
+    public void FindWood()
     {
-        _spawnedWood.Add(wood);
-        wood.IconViewer.HideIcon();
-        Debug.Log(_spawnedWood.Count);
+        int maxWoodCount = 10;
+        float halfScanBoxHeight = 5;
+        int radarRadius = 5;
+
+        Vector3 halfExtents = new Vector3(Utils.TileSize * radarRadius, halfScanBoxHeight, Utils.TileSize * radarRadius);
+
+        Collider[] colliders = new Collider[maxWoodCount];
+        int count = Physics.OverlapBoxNonAlloc(Vector3.zero, halfExtents, colliders, Quaternion.identity, _woodLayer);
+
+        _woods = colliders
+            .Where(collider => collider != null)
+            .Select(collider => collider.GetComponent<Wood>())
+            .Where(wood => wood != null)
+            .OrderBy(wood => (wood.transform.position - transform.position).magnitude)
+            .ToList();
     }
 }

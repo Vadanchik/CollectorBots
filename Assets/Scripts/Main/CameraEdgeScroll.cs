@@ -7,7 +7,7 @@ public class CameraEdgeScroll : MonoBehaviour
     [SerializeField] private Vector2 _panLimitMin;
     [SerializeField] private Vector2 _panLimitMax;
 
-    void Update()
+    private void Update()
     {
         Vector3 pos = transform.position;
         Vector3 mousePos = Input.mousePosition;

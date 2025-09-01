@@ -492,6 +492,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _woodSpawner: {fileID: 2086053884}
+  _woodLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!4 &1765873371
 Transform:
   m_ObjectHideFlags: 0

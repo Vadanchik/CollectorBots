@@ -65,6 +65,7 @@ public class House : MonoBehaviour
 
     private void ExecuteBotSending()
     {
+        _woodStorage.FindWood();
         _woodStorage.AddScanedWood();
 
         StartCoroutine(SendBots());
