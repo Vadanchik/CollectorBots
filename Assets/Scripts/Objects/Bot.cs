@@ -7,14 +7,14 @@ public class Bot : MonoBehaviour
     [SerializeField] private float _speed;
     [SerializeField] private float _timeToGather;
 
-    private House _house;
+    private Vector3 _housePosition;
     private float _gatherDistance = 5;
 
     public event Action<Bot> Delivered;
 
-    public void Init(House house)
+    public void Init(Vector3 position)
     {
-        _house = house;
+        _housePosition = position;
     }
 
     public void StartGathering(Wood wood)
@@ -28,7 +28,7 @@ public class Bot : MonoBehaviour
 
         yield return GatherWood(wood);
 
-        yield return GoToTarget(_house.transform.position);
+        yield return GoToTarget(_housePosition);
 
         Delivered?.Invoke(this);
     }

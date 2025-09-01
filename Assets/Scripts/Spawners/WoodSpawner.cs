@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -6,6 +7,8 @@ public class WoodSpawner : PoolSpawner<Wood>
     [SerializeField] private float _timeOverSpawn;
 
     private Vector3 _currentWoodPosition;
+
+    public event Action<Wood> Spawned;
 
     public void StartSpawnWood(int maxPosition)
     {
@@ -16,6 +19,8 @@ public class WoodSpawner : PoolSpawner<Wood>
     {
         wood.Init(_currentWoodPosition);
         wood.gameObject.SetActive(true);
+
+        Spawned?.Invoke(wood);
     }
 
     protected override Wood Create()

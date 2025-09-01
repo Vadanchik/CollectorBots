@@ -1,26 +1,26 @@
 using TMPro;
 using UnityEngine;
 
-[RequireComponent(typeof(House))]
+[RequireComponent(typeof(WoodCounter))]
 public class WoodCountViewer : MonoBehaviour
 {
     [SerializeField] private TMP_Text _woodCountText;
 
-    private House _house;
+    private WoodCounter _counter;
 
     private void Awake()
     {
-        _house = GetComponent<House>();
+        _counter = GetComponent<WoodCounter>();
     }
 
     private void OnEnable()
     {
-        _house.WoodCountChanged += ChangeWoodCount;
+        _counter.CountChanged += ChangeWoodCount;
     }
 
     private void OnDisable()
     {
-        _house.WoodCountChanged -= ChangeWoodCount;
+        _counter.CountChanged -= ChangeWoodCount;
     }
 
     private void ChangeWoodCount(int count)
